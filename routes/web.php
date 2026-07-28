@@ -13,20 +13,20 @@ Route::prefix('publico')->name('publico.')->group(function () {
     Route::get('/eventos', function () {
         return view('publico.evento.index');
     })->name('eventos.index');
-    
+
     Route::get('/programa', function () {
         return view('publico.programa.index');
     })->name('programa.index');
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    });
 
-Route::resource('usuario', UserController::class);
+    Route::resource('user', UserController::class)->only('index');
 });
 
 

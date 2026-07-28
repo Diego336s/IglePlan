@@ -1,0 +1,51 @@
+/**
+ * IGLEPLAN - Responsive Minimalist SaaS Theme
+ */
+
+:root {
+  --ig-primary: #2563eb;
+  --ig-bg: #f8fafc;
+  --ig-surface: #ffffff;
+  --ig-text-primary: #1e293b;
+  --ig-text-secondary: #64748b;
+  --ig-border: #e2e8f0;
+}
+
+body {
+  background-color: var(--ig-bg);
+  color: var(--ig-text-primary);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.dashboard-minimal-wrapper {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 0.85rem;
+}
+
+.extra-small {
+  font-size: 0.75rem;
+}
+
+/* Cards & Responsive Inputs */
+.metric-card {
+  border: 1px solid var(--ig-border) !important;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.metric-card:hover {
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
+  .max-w-sm {
+    max-width: 100% !important;
+  }
+}

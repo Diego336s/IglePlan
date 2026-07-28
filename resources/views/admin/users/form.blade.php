@@ -61,7 +61,7 @@
                                 <i class="bi bi-person input-icon"></i>
                                 <div class="form-floating">
                                     <input type="text" class="form-control rounded-3 @error('name') is-invalid @enderror"
-                                        id="name" name="first_name" placeholder="Nombre" value="{{ old('name') }}"
+                                        id="name" name="name" placeholder="Nombre" value="{{ old('name') }}"
                                         required autocomplete="given-name">
                                     <label for="name">Nombre <span class="text-danger">*</span></label>
                                     <div class="invalid-feedback">

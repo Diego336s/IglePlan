@@ -1,7 +1,11 @@
 @extends('layouts.app')
 @section('contenido')
     <title>Login - IGLEICO</title>
-    @vite(['resources/css/auth/login.css', 'resources/js/auth/login.js'])
+    @push('styles')
+        @vite(['resources/css/auth/login.css'])
+    @endpush
+
+
 
 
     <main class="min-vh-100 d-flex flex-column flex-lg-row">
@@ -60,7 +64,7 @@
                     <div class="d-inline-flex align-items-center gap-2 mb-2">
                         <div
                             class="brand-icon-square bg-primary text-white rounded-3 d-flex align-items-center justify-content-center">
-                           <i class="bi bi-house-heart"></i>
+                            <i class="bi bi-house-heart"></i>
                         </div>
                         <span class="h4 fw-bold text-slate-900 mb-0 tracking-tight">IGLEPLAN</span>
                     </div>
@@ -86,7 +90,7 @@
                     </div>
 
                     {{-- Authentication Form --}}
-                    <form id="loginForm" novalidate>
+                    <form action="{{ route('login') }}" method="POST" id="loginForm" novalidate>
                         @csrf
 
                         {{-- Email Input --}}
@@ -163,3 +167,6 @@
 
     </main>
 @endsection
+@push('scripts')
+    @vite(['resources/js/auth/login.js'])
+@endpush

@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-    $rols = rols::all();
+        $rols = rols::all();
         return view('admin.users.form', compact('rols'));
     }
 
@@ -39,15 +39,15 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'last_name' => $request->email,
-            'rol_id' =>$request->email,
-            'telefono' => $request->email
+            'last_name' => $request->last_name,
+            'rol_id' => $request->rol_id,
+            'telefono' => $request->telefono
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+       
+        return redirect()->route('admin.dashboard', compact('user'));
     }
 }

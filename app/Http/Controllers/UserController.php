@@ -9,11 +9,8 @@ class UserController extends Controller
 {
     function index()
     {
-        $users = User::all();
-    }
+        $users = User::with('rol')->get();
 
-    function create()
-    {
-        return view();
+        return view('admin.users.index', compact('users'));
     }
 }

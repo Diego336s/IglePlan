@@ -1,0 +1,149 @@
+/* IGLEPLAN Design System Palette & Tokens */
+:root {
+  --ig-primary: #2563EB;
+  --ig-secondary: #3B82F6;
+  --ig-accent: #F97316;
+  --ig-bg: #F8FAFC;
+  --ig-surface: #FFFFFF;
+  --ig-text-primary: #1E293B;
+  --ig-text-secondary: #64748B;
+  --ig-purple: #8B5CF6;
+  --ig-amber: #D97706;
+}
+
+body {
+  background-color: var(--ig-bg);
+  color: var(--ig-text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Typography Helpers */
+.text-slate-900 { color: #0F172A !important; }
+.text-slate-800 { color: #1E293B !important; }
+.text-slate-700 { color: #334155 !important; }
+.text-slate-600 { color: #475569 !important; }
+.text-slate-500 { color: #64748B !important; }
+.text-slate-400 { color: #94A3B8 !important; }
+.extra-small { font-size: 0.75rem; letter-spacing: 0.05em; }
+
+/* Custom Rounded Cards */
+.rounded-xl {
+  border-radius: 1rem !important;
+}
+
+/* KPI Card & Animations */
+.kpi-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--ig-surface);
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01) !important;
+}
+
+.kpi-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* Custom Color Utilities for Badges and Icons */
+.bg-purple-subtle { background-color: #F3E8FF !important; }
+.text-purple { color: #7E22CE !important; }
+.border-purple-subtle { border-color: #E9D5FF !important; }
+
+.bg-blue-subtle { background-color: #EFF6FF !important; }
+.text-blue { color: #1D4ED8 !important; }
+.border-blue-subtle { border-color: #BFDBFE !important; }
+
+.bg-amber-subtle { background-color: #FEF3C7 !important; }
+.text-amber { color: #B45309 !important; }
+.border-amber-subtle { border-color: #FDE68A !important; }
+
+.bg-primary-subtle { background-color: #DBEAFE !important; }
+
+/* Search Toolbar Styling */
+.search-input-group .input-group-text,
+.search-input-group .form-control {
+  border-color: #E2E8F0;
+  background-color: #FFFFFF;
+}
+
+.search-input-group .form-control:focus {
+  border-color: var(--ig-primary);
+}
+
+/* Table Custom Styling */
+.custom-table {
+  vertical-align: middle;
+}
+
+.custom-table thead th {
+  background-color: #F8FAFC;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.custom-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.custom-table tbody tr:nth-of-type(even) {
+  background-color: #FAFAFA;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #F1F5F9;
+}
+
+/* Custom Action Buttons in Table */
+.btn-action-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--ig-text-secondary);
+  border: 1px solid transparent;
+  background-color: transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-action-icon:hover {
+  background-color: #E2E8F0;
+  color: var(--ig-text-primary);
+}
+
+.btn-action-icon.btn-delete:hover {
+  background-color: #FEE2E2;
+  color: #DC2626 !important;
+}
+
+/* Empty State Styling */
+.empty-state-icon {
+  width: 96px;
+  height: 96px;
+}
+
+/* Scrollbar customization */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

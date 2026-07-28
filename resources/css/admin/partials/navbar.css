@@ -1,0 +1,25 @@
+
+/* Offcanvas Hamburguesa Responsive */
+.offcanvas {
+  width: 280px !important;
+  max-width: 80vw;
+  border-radius: 0 1rem 1rem 0;
+}
+
+.offcanvas .nav-link {
+  transition: all 0.15s ease-in-out;
+  color: var(--ig-text-primary);
+}
+
+.offcanvas .nav-link:hover:not(.active) {
+  background-color: #f1f5f9;
+}
+
+.offcanvas .nav-link.active {
+  background-color: var(--ig-primary);
+  color: #ffffff !important;
+}
+
+.offcanvas .nav-link.active i {
+  color: #ffffff !important;
+}
