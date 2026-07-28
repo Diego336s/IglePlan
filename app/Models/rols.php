@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class roles extends Model
+class rols extends Model
 {
-    //
+    protected $fillable = [
+        'rol'
+    ];
 }

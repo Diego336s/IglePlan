@@ -1,7 +1,10 @@
 @extends('layouts.app')
-
+@push('styles')
+     @vite(['resources/css/publico/eventos/index.css', 'resources/js/publico/eventos/index.js'])
+@endpush
 @section('contenido')
-    @vite(['resources/css/publico/eventos/index.css', 'resources/js/publico/eventos/index.js'])
+
+   
 
     <div class="events-panel container max-w-5xl mx-auto px-3 py-4">
 

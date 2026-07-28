@@ -1,7 +1,10 @@
 @extends('layouts.app')
-
-@section('contenido')
+@push('styles')
     @vite(['resources/css/publico/programa/index.css', 'resources/js/publico/programa/index.js'])
+@endpush
+@section('contenido')
+
+
     <div class="schedule-panel container px-3 px-md-0 max-w-5xl mx-auto py-4">
 
         {{-- Header --}}

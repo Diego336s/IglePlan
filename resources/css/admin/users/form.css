@@ -1,0 +1,183 @@
+/**
+ * IGLEPLAN - Design System Overrides & Custom Styles
+ * Modern SaaS UI Pattern (Linear / Notion / Supabase inspired)
+ */
+
+:root {
+  --ig-primary: #2563eb;
+  --ig-primary-hover: #1d4ed8;
+  --ig-secondary: #3b82f6;
+  --ig-accent: #f97316;
+  --ig-bg: #f8fafc;
+  --ig-surface: #ffffff;
+  --ig-text-primary: #1e293b;
+  --ig-text-secondary: #64748b;
+  --ig-border: #e2e8f0;
+  --ig-focus-ring: rgba(37, 99, 235, 0.15);
+}
+
+/* Base Body Styling Sync */
+body {
+  background-color: var(--ig-bg);
+  color: var(--ig-text-primary);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Main Container Constraint */
+.register-container {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* Header Typography */
+.page-title {
+  color: var(--ig-text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.page-description {
+  color: var(--ig-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Form Card Styling */
+.form-card {
+  background-color: var(--ig-surface);
+  border: 1px solid var(--ig-border) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Input Icon Wrapper & Floating Label Customization */
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon-wrapper .input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  color: var(--ig-text-secondary);
+  font-size: 1.15rem;
+  pointer-events: none;
+  transition: color 0.15s ease-in-out;
+}
+
+/* Adjust Floating Labels to account for icons */
+.input-icon-wrapper .form-floating > .form-control,
+.input-icon-wrapper .form-floating > .form-select {
+  padding-left: 2.85rem;
+  height: calc(3.5rem + 2px);
+  border-color: var(--ig-border);
+  color: var(--ig-text-primary);
+  font-size: 0.95rem;
+}
+
+.input-icon-wrapper .form-floating > label {
+  padding-left: 2.85rem;
+  color: var(--ig-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Focus and Active States */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--ig-primary);
+  box-shadow: 0 0 0 4px var(--ig-focus-ring);
+}
+
+.input-icon-wrapper:focus-within .input-icon {
+  color: var(--ig-primary);
+}
+
+/* Password Toggle Button */
+.toggle-password-btn {
+  border: none;
+  background: transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.1rem;
+  z-index: 5;
+  border-radius: 0.375rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+.toggle-password-btn:hover {
+  color: var(--ig-text-primary) !important;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.toggle-password-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Password Strength Meter */
+.progress-sm {
+  height: 6px;
+  background-color: #e2e8f0;
+}
+
+.password-strength-container small {
+  font-size: 0.8rem;
+}
+
+/* Requirements Checklist Card */
+.requirements-card {
+  background-color: #f1f5f9 !important;
+  border: 1px dashed #cbd5e1 !important;
+}
+
+.requirement-item {
+  font-size: 0.825rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.requirement-item.valid {
+  color: #15803d !important;
+  font-weight: 500;
+}
+
+.requirement-item.valid i {
+  color: #16a34a !important;
+}
+
+/* Primary Button Design */
+.btn-primary {
+  background-color: var(--ig-primary);
+  border-color: var(--ig-primary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--ig-primary-hover);
+  border-color: var(--ig-primary-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.btn-outline-secondary {
+  border-color: var(--ig-border);
+  color: var(--ig-text-primary);
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: var(--ig-text-primary);
+}
+
+/* Custom Padding Utility */
+.py-2-5 {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+
+/* Touch targets and smooth interaction */
+button, input, select {
+  touch-action: manipulation;
+}
