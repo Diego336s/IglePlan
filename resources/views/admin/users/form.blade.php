@@ -50,8 +50,8 @@
         <!-- Main Form Card -->
         <div class="card form-card border-0 shadow-sm rounded-4">
             <div class="card-body p-4 p-md-5">
-                <form action="{{ route('register') }}" method="POST" id="registerUserForm" class="needs-validation"
-                    novalidate>
+                <form action="{{ $ruta }}" method="{{ $method }}" id="registerUserForm"
+                    class="needs-validation" novalidate>
                     @csrf
 
                     <div class="row g-4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserController;
 use App\Http\Requests\Auth\RegistroRequest;
 use App\Models\rols;
 use App\Models\User;
@@ -23,7 +24,9 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $rols = rols::all();
-        return view('admin.users.form', compact('rols'));
+        $ruta = route('register');
+        $method = 'POST';
+        return view('admin.users.form', compact('rols', 'ruta', 'method'));
     }
 
     /**
@@ -47,7 +50,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-       
-        return redirect()->route('admin.dashboard', compact('user'));
+
+        return redirect()->route('admin.dashboard');
     }
 }

@@ -15,10 +15,7 @@
                     <!-- Brand / Logo -->
                     <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark m-0 fs-6 fs-sm-5"
                         href="#">
-                        <span
-                            class="brand-icon bg-primary text-white rounded-3 d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cross"></i>
-                        </span>
+
                         <span class="d-inline-block">IGLEPLAN</span>
                         <span
                             class="badge bg-light text-secondary border font-monospace extra-small d-none d-md-inline-block">ADMIN</span>
@@ -79,7 +76,7 @@
                 <div class="d-flex align-items-center gap-2">
                     <span
                         class="brand-icon bg-primary text-white rounded-3 d-flex align-items-center justify-content-center">
-                        <i class="bi bi-cross"></i>
+                        <i class="bi bi-house-heart"></i>
                     </span>
                     <h5 class="offcanvas-title fw-bold text-dark h6 mb-0" id="sidebarMenuLabel">Navegación</h5>
                 </div>
@@ -90,15 +87,19 @@
             <div class="offcanvas-body p-3">
                 <div class="text-uppercase text-secondary extra-small fw-semibold px-3 mb-2">Módulos Principales</div>
                 <nav class="nav nav-pills flex-column gap-1">
-                    <a class="nav-link active rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3"
-                        href="#">
-                        <i class="bi bi-grid-1x2 fs-6"></i> Resumen General
+                    <a class="nav-link rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3
+    {{ request()->routeIs('admin.dashboard') ? 'active' : 'text-dark' }}"
+                        href="{{ route('admin.dashboard') }}">
+                        <i class="bi bi-grid-1x2 fs-6"></i>
+                        Resumen General
                     </a>
-                    <a class="nav-link text-dark rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3"
+                    <a class="nav-link rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3
+    {{ request()->routeIs('admin.user.*') ? 'active' : 'text-dark' }}"
                         href="{{ route('admin.user.index') }}">
-                        <i class="bi bi-people fs-6 text-muted"></i> Usuarios
+                        <i class="bi bi-people fs-6"></i>
+                        Usuarios
                     </a>
-                   
+
                     <a class="nav-link text-dark rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3"
                         href="#">
                         <i class="bi bi-diagram-3 fs-6 text-muted"></i> Ministerios

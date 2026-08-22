@@ -14,12 +14,11 @@
                 <p class="text-slate-500 mb-0 small">Gestiona todos los usuarios registrados en la plataforma.</p>
             </div>
             <div>
-                <button type="button"
-                    class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2 shadow-sm fs-6"
-                    data-bs-toggle="modal" data-bs-target="#createUserModal">
+                <a href="{{ route('admin.user.create') }}"
+                    class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2 shadow-sm fs-6">
                     <i class="bi bi-person-plus-fill"></i>
                     <span>Registrar Usuario</span>
-                </button>
+                </a>
             </div>
         </header>
 
@@ -34,7 +33,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Total Usuarios</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">1,248</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $totalUsers }}</h2>
                         </div>
                     </div>
                 </div>
@@ -47,8 +46,8 @@
                             <i class="bi bi-shield-lock-fill fs-4"></i>
                         </div>
                         <div>
-                            <span class="text-slate-500 small fw-medium d-block">Super Administradores</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">4</h2>
+                            <span class="text-slate-500 small fw-medium d-block">Administradores</span>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $totalAdmin }}</h2>
                         </div>
                     </div>
                 </div>
@@ -62,7 +61,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Pastores</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">38</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $totalPastores }}</h2>
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Líderes</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">186</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $totalLideres }}</h2>
                         </div>
                     </div>
                 </div>
@@ -98,17 +97,20 @@
                 <div class="col-12 col-sm-6 col-lg-2">
                     <select id="roleFilter" class="form-select text-slate-700 shadow-none">
                         <option value="">Todos los Roles</option>
-                        <option value="Super Administrador">Super Administrador</option>
-                        <option value="Pastor">Pastor</option>
-                        <option value="Líder">Líder</option>
+                         @foreach ($rols as $rol)
+                                            <option value="{{ $rol->id }}"
+                                                {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                                                {{ $rol->rol }}
+                                            </option>
+                                        @endforeach
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-2">
                     <select id="statusFilter" class="form-select text-slate-700 shadow-none">
                         <option value="">Todos los Estados</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                        <option value="Suspendido">Suspendido</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+               
                     </select>
                 </div>
                 <div class="col-12 col-lg-2 d-grid">
@@ -159,24 +161,28 @@
                     </thead>
                     <tbody id="usersTableBody">
                         @forelse ($users as $user)
-                            <tr data-user-id="101" data-first-name="Carlos" data-last-name="Mendoza"
-                                data-email="carlos.mendoza@igleplan.com" data-phone="+57 300 123 4567"
-                                data-role="Super Administrador" data-status="Activo" data-reg-date="12 Ene 2024"
-                                data-last-login="Hace 10 minutos">
+                            <tr data-user-id="{{ $user->id }}" data-first-name="{{ $user->name }}"
+                                data-last-name="{{ $user->last_name }}" data-email="{{ $user->email }}"
+                                data-phone="{{ $user->telefono }}" data-role="{{ $user->rol_id }}" data-status="{{ $user->estado }}"
+                                data-reg-date="{{ $user->created_at }}" >
                                 <td class="ps-4">
-                                    <img src="https://ui-avatars.com/api/?name={{$user->name}}&background=2563EB&color=fff&bold=true"
-                                        alt="{{$user->name}}" class="rounded-circle border" width="38"
+                                    <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563EB&color=fff&bold=true"
+                                        alt="{{ $user->name }}" class="rounded-circle border" width="38"
                                         height="38">
                                 </td>
-                                <td class="fw-semibold text-slate-900">{{$user->name}} {{$user->last_name}}</td>
-                                <td class="text-slate-600">{{$user->email}}</td>
-                                <td class="text-slate-600">{{$user->telefono}}</td>
+                                <td class="fw-semibold text-slate-900">{{ $user->name }} {{ $user->last_name }}</td>
+                                <td class="text-slate-600">{{ $user->email }}</td>
+                                <td class="text-slate-600">{{ $user->telefono }}</td>
                                 <td><span
-                                        class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">{{$user->rol->rol}}</span></td>
-                                <td><span
-                                        class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Activo</span>
+                                        class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">{{ $user->rol->rol }}</span>
                                 </td>
-                                <td class="text-slate-500">{{$user->created_at}}</td>
+                                <td><span
+                                        class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">
+                                    {{ $user->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                        
+                                    </span>
+                                </td>
+                                <td class="text-slate-500">{{ $user->created_at }}</td>
                                 <td class="pe-4 text-end">
                                     <div class="d-inline-flex gap-1">
                                         <button type="button" class="btn btn-action-icon btn-view"
@@ -249,12 +255,8 @@
                                     Registro</span>
                                 <span id="viewUserRegDate" class="text-slate-800 small fw-medium"></span>
                             </div>
+                         
                             <div class="col-6">
-                                <span class="text-slate-400 extra-small d-block text-uppercase fw-semibold">Último
-                                    Acceso</span>
-                                <span id="viewUserLastLogin" class="text-slate-800 small fw-medium"></span>
-                            </div>
-                            <div class="col-12">
                                 <span class="text-slate-400 extra-small d-block text-uppercase fw-semibold">Estado de la
                                     cuenta</span>
                                 <span id="viewUserStatusBadge"></span>
@@ -306,17 +308,21 @@
                             <div class="col-6">
                                 <label for="editRole" class="form-label small fw-semibold text-slate-700">Rol</label>
                                 <select class="form-select shadow-none" id="editRole" required>
-                                    <option value="Super Administrador">Super Administrador</option>
-                                    <option value="Pastor">Pastor</option>
-                                    <option value="Líder">Líder</option>
+                                   <option value="" selected disabled>Selecciona un rol...</option>
+                                        @foreach ($rols as $rol)
+                                            <option value="{{ $rol->id }}"
+                                                {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                                                {{ $rol->rol }}
+                                            </option>
+                                        @endforeach
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label for="editStatus" class="form-label small fw-semibold text-slate-700">Estado</label>
                                 <select class="form-select shadow-none" id="editStatus" required>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="Suspendido">Suspendido</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                               
                                 </select>
                             </div>
                         </div>

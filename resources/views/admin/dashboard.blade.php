@@ -5,7 +5,7 @@
 @endpush
 
 @section('contenido')
-    <div class="dashboard-minimal-wrapper container-fluid px-2 px-sm-3 px-md-4 py-2 py-md-3">
+    <div class="dashboard-minimal-wrapper container container-fluid px-2 px-sm-3 px-md-4 py-2 py-md-3">
 
        
 

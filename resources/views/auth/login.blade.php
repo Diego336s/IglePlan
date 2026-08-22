@@ -59,6 +59,13 @@
         <section class="login-section col-12 col-lg-7 col-xl-8 d-flex align-items-center justify-content-center p-4 p-md-5">
             <div class="login-card-wrapper w-100 max-w-md space-y-4">
 
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 {{-- Mobile / Tablet Brand Header --}}
                 <div class="text-center d-lg-none mb-4">
                     <div class="d-inline-flex align-items-center gap-2 mb-2">
@@ -80,15 +87,20 @@
                         <p class="fs-7 text-slate-500 mb-0">Inicia sesión para acceder a IGLEPLAN.</p>
                     </div>
 
-                    {{-- General Error Alert (Hidden by Default) --}}
-                    <div id="loginAlert"
-                        class="alert alert-danger border-0 bg-danger-subtle text-danger-emphasis rounded-3 p-3 fs-7 d-none align-items-start gap-2 mb-4"
-                        role="alert">
-                        <i class="bi bi-exclamation-triangle-fill fs-6 flex-shrink-0 mt-0.5"></i>
-                        <div id="loginAlertText">Las credenciales ingresadas son incorrectas. Por favor, verifica e intenta
-                            de nuevo.</div>
-                    </div>
-
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                                <strong>Por favor corrige los siguientes errores:</strong>
+                            </div>
+                            <ul class="mb-0 ps-3">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                        </div>
+                    @endif
                     {{-- Authentication Form --}}
                     <form action="{{ route('login') }}" method="POST" id="loginForm" novalidate>
                         @csrf

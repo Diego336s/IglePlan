@@ -24,8 +24,17 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
+               Rule::unique(User::class)->ignore($this->route('user')->id),
             ],
+            'last_name' => 'required|string|max:255',
+            'rol_id' => 'required|integer|exists:rols,id',
+            'password' => 'nullable|string|min:8',
+            'telefono' => [
+                'required',
+                'string',
+                'digits:10',
+              Rule::unique(User::class)->ignore($this->route('user')->id),
+            ]
         ];
     }
 }
