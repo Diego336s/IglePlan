@@ -81,7 +81,27 @@
                 </div>
             </div>
         </section>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                    <strong>Por favor corrige los siguientes errores:</strong>
+                </div>
+                <ul class="mb-0 ps-3">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        @endif
         <!-- SEARCH AND FILTERS TOOLBAR -->
         <section class="card border-0 rounded-xl shadow-sm p-3 mb-4">
             <div class="row g-3 align-items-center">
@@ -97,12 +117,11 @@
                 <div class="col-12 col-sm-6 col-lg-2">
                     <select id="roleFilter" class="form-select text-slate-700 shadow-none">
                         <option value="">Todos los Roles</option>
-                         @foreach ($rols as $rol)
-                                            <option value="{{ $rol->id }}"
-                                                {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                                                {{ $rol->rol }}
-                                            </option>
-                                        @endforeach
+                        @foreach ($rols as $rol)
+                            <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                                {{ $rol->rol }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-2">
@@ -110,7 +129,7 @@
                         <option value="">Todos los Estados</option>
                         <option value="1">Activo</option>
                         <option value="0">Inactivo</option>
-               
+
                     </select>
                 </div>
                 <div class="col-12 col-lg-2 d-grid">
@@ -155,7 +174,8 @@
                             <th scope="col" class="text-slate-500 fw-semibold text-uppercase extra-small">Estado</th>
                             <th scope="col" class="text-slate-500 fw-semibold text-uppercase extra-small">Fecha de
                                 Registro</th>
-                            <th scope="col" class="pe-4 text-end text-slate-500 fw-semibold text-uppercase extra-small">
+                            <th scope="col"
+                                class="pe-4 text-end text-slate-500 fw-semibold text-uppercase extra-small">
                                 Acciones</th>
                         </tr>
                     </thead>
@@ -163,8 +183,8 @@
                         @forelse ($users as $user)
                             <tr data-user-id="{{ $user->id }}" data-first-name="{{ $user->name }}"
                                 data-last-name="{{ $user->last_name }}" data-email="{{ $user->email }}"
-                                data-phone="{{ $user->telefono }}" data-role="{{ $user->rol_id }}" data-status="{{ $user->estado }}"
-                                data-reg-date="{{ $user->created_at }}" >
+                                data-phone="{{ $user->telefono }}" data-role="{{ $user->rol_id }}"
+                                data-status="{{ $user->estado }}" data-reg-date="{{ $user->created_at }}">
                                 <td class="ps-4">
                                     <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563EB&color=fff&bold=true"
                                         alt="{{ $user->name }}" class="rounded-circle border" width="38"
@@ -177,9 +197,9 @@
                                         class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">{{ $user->rol->rol }}</span>
                                 </td>
                                 <td><span
-                                        class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">
-                                    {{ $user->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                        
+                                        class="badge {{ $user->estado == 1 ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle' }}  px-3 py-2 rounded-pill fw-medium">
+                                        {{ $user->estado == 1 ? 'Activo' : 'Inactivo' }}
+
                                     </span>
                                 </td>
                                 <td class="text-slate-500">{{ $user->created_at }}</td>
@@ -255,7 +275,7 @@
                                     Registro</span>
                                 <span id="viewUserRegDate" class="text-slate-800 small fw-medium"></span>
                             </div>
-                         
+
                             <div class="col-6">
                                 <span class="text-slate-400 extra-small d-block text-uppercase fw-semibold">Estado de la
                                     cuenta</span>
@@ -281,48 +301,54 @@
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form id="editUserForm">
+                <form id="editUserForm" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-body p-4 pt-0">
-                        <input type="hidden" id="editUserId">
+
                         <div class="row g-3">
                             <div class="col-6">
                                 <label for="editFirstName"
                                     class="form-label small fw-semibold text-slate-700">Nombre</label>
-                                <input type="text" class="form-control shadow-none" id="editFirstName" required>
+                                <input type="text" class="form-control shadow-none" name="name" id="editFirstName"
+                                    required>
                             </div>
                             <div class="col-6">
                                 <label for="editLastName"
                                     class="form-label small fw-semibold text-slate-700">Apellido</label>
-                                <input type="text" class="form-control shadow-none" id="editLastName" required>
+                                <input type="text" class="form-control shadow-none" name="last_name"
+                                    id="editLastName" required>
                             </div>
                             <div class="col-12">
                                 <label for="editEmail" class="form-label small fw-semibold text-slate-700">Correo
                                     Electrónico</label>
-                                <input type="email" class="form-control shadow-none" id="editEmail" required>
+                                <input name="email" type="email" class="form-control shadow-none" id="editEmail"
+                                    required>
                             </div>
                             <div class="col-12">
                                 <label for="editPhone"
                                     class="form-label small fw-semibold text-slate-700">Teléfono</label>
-                                <input type="text" class="form-control shadow-none" id="editPhone" required>
+                                <input name="telefono" type="text" class="form-control shadow-none" id="editPhone"
+                                    required>
                             </div>
                             <div class="col-6">
                                 <label for="editRole" class="form-label small fw-semibold text-slate-700">Rol</label>
-                                <select class="form-select shadow-none" id="editRole" required>
-                                   <option value="" selected disabled>Selecciona un rol...</option>
-                                        @foreach ($rols as $rol)
-                                            <option value="{{ $rol->id }}"
-                                                {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                                                {{ $rol->rol }}
-                                            </option>
-                                        @endforeach
+                                <select name="rol_id" class="form-select shadow-none" id="editRole" required>
+                                    <option value="" selected disabled>Selecciona un rol...</option>
+                                    @foreach ($rols as $rol)
+                                        <option value="{{ $rol->id }}"
+                                            {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                                            {{ $rol->rol }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label for="editStatus" class="form-label small fw-semibold text-slate-700">Estado</label>
-                                <select class="form-select shadow-none" id="editStatus" required>
+                                <select name="estado" class="form-select shadow-none" id="editStatus" required>
                                     <option value="1">Activo</option>
                                     <option value="0">Inactivo</option>
-                               
+
                                 </select>
                             </div>
                         </div>
@@ -348,10 +374,14 @@
                     </div>
                     <h5 class="fw-bold text-slate-900 mb-2">Eliminar Usuario</h5>
                     <p class="text-slate-500 small mb-4">¿Está seguro de eliminar este usuario?</p>
-                    <input type="hidden" id="deleteUserId">
+
                     <div class="d-grid gap-2">
-                        <button type="button" id="btnConfirmDelete" class="btn btn-danger rounded-pill">Eliminar
-                            Usuario</button>
+                        <form id="formEliminar" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" id="btnConfirmDelete" class="btn btn-danger rounded-pill">Eliminar
+                                Usuario</button>
+                        </form>
                         <button type="button" class="btn btn-light text-slate-600 rounded-pill border"
                             data-bs-dismiss="modal">Cancelar</button>
                     </div>

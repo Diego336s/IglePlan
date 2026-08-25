@@ -24,7 +24,8 @@ class User extends Authenticatable
         'last_name',
         'rol_id',
         'password',
-        'telefono'
+        'telefono',
+        'estado'
     ];
     
     public function rol()

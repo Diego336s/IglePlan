@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\RegistroRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\rols;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class UserController extends Controller
         $totalLideres = User::where('rol_id', 2)->count();
         $totalPastores = User::where('rol_id', 1)->count();
 
-          $rols = rols::all();
+        $rols = rols::all();
 
         return view('admin.users.index', compact('users', 'rols', 'totalUsers', 'totalAdmin', 'totalLideres', 'totalPastores'));
     }
@@ -44,8 +45,23 @@ class UserController extends Controller
             'telefono' => $request->telefono
         ]);
 
-        return redirect()->route('admin.user.index', when('success', 'Usuario ' . $request->name . ' creado correctamente'));
+        return redirect()->route('admin.user.index')->with('success', 'Usuario ' . $request->name . ' creado correctamente');
     }
 
-  
+    function update(ProfileUpdateRequest $request, int $user)
+    {
+
+        $usuario = User::findOrFail($user);
+
+        $usuario->update($request->validated());
+
+        return redirect()->route('admin.user.index')->with('success',  'Usuario ' . $request->name . ' actualizado correctamente');
+    }
+
+    function destroy(int $user)
+    {
+        $usuario = User::findOrFail($user);
+        $usuario->delete();
+        return redirect()->route('admin.user.index')->with('success',  'Usuario eliminado correctamente');
+    }
 }

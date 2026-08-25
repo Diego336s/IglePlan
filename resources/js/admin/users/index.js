@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Tooltips Initialization
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('viewUserEmail').textContent = data.email;
             document.getElementById('viewUserPhone').textContent = data.phone;
             document.getElementById('viewUserRegDate').textContent = data.regDate;
-            document.getElementById('viewUserLastLogin').textContent = data.lastLogin;
+
 
             // Badges
             document.getElementById('viewUserRoleBadge').innerHTML = getRoleBadgeHtml(data.role);
@@ -101,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // EDITAR USUARIO
         if (btnEdit) {
-            document.getElementById('editUserId').value = data.userId;
+            let form = document.getElementById('editUserForm');
+            form.action = `user/${data.userId}`;
             document.getElementById('editFirstName').value = data.firstName;
             document.getElementById('editLastName').value = data.lastName;
             document.getElementById('editEmail').value = data.email;
@@ -114,47 +116,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ELIMINAR USUARIO
         if (btnDelete) {
-            document.getElementById('deleteUserId').value = data.userId;
+
+            let form = document.getElementById('formEliminar');
+            form.action = `user/${data.userId}`;
             deleteUserModal.show();
         }
     });
 
     // 5. Submit Form Editar
     document.getElementById('editUserForm').addEventListener('submit', (e) => {
-        e.preventDefault();
+
         // Lógica de actualización UI local simulada
         editUserModal.hide();
+
     });
 
     // 6. Confirmar Eliminación
     document.getElementById('btnConfirmDelete').addEventListener('click', () => {
-        const userId = document.getElementById('deleteUserId').value;
-        const rowToDelete = document.querySelector(`tr[data-user-id="${userId}"]`);
-        if (rowToDelete) {
-            rowToDelete.remove();
-            filterTable();
-        }
-        deleteUserModal.hide();
+
+
     });
 
     // Helpers
     function getRoleBadgeHtml(role) {
-        if (role === 'Super Administrador') {
-            return `<span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">Super Administrador</span>`;
+        switch (role) {
+            case '1':
+                return `<span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">Pastor</span>`;
+                break;
+            case '2':
+                return `<span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">Lider</span>`;
+                break;
+
+            case '3':
+                return `<span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">Admin</span>`;
+                break;
+
+
+            default:
+                return `<span class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">Rol no identificado</span>`;
+                break;
         }
-        if (role === 'Pastor') {
-            return `<span class="badge bg-blue-subtle text-blue border border-blue-subtle px-3 py-2 rounded-pill fw-medium">Pastor</span>`;
-        }
-        return `<span class="badge bg-amber-subtle text-amber border border-amber-subtle px-3 py-2 rounded-pill fw-medium">Líder</span>`;
+
     }
 
     function getStatusBadgeHtml(status) {
-        if (status === 'Activo') {
-            return `<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Activo</span>`;
+        switch (status) {
+            case '1':
+                return `<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Activo</span>`;
+                break;
+            case '0':
+                return `<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Inactivo</span>`;
+                break;
+
+            default:
+                return `<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Estado no identificado</span>`;
+                break;
         }
-        if (status === 'Inactivo') {
-            return `<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-3 py-2 rounded-pill fw-medium">Inactivo</span>`;
-        }
-        return `<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill fw-medium">Suspendido</span>`;
+
     }
 });

@@ -16,15 +16,16 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('user');
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'string',
                 'lowercase',
                 'email',
                 'max:255',
-               Rule::unique(User::class)->ignore($this->route('user')->id),
+                Rule::unique('users', 'email')->ignore($id),
             ],
             'last_name' => 'required|string|max:255',
             'rol_id' => 'required|integer|exists:rols,id',
@@ -33,8 +34,9 @@ class ProfileUpdateRequest extends FormRequest
                 'required',
                 'string',
                 'digits:10',
-              Rule::unique(User::class)->ignore($this->route('user')->id),
-            ]
+                Rule::unique('users', 'telefono')->ignore($id),
+            ],
+            'estado' => 'required|integer|boolean',
         ];
     }
 }

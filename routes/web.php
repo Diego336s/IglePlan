@@ -28,7 +28,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'verificaion-estado'])->
         return view('admin.dashboard');
     })->name('dashboard');
 
-    Route::resource('user', UserController::class);
+    Route::resource('user', UserController::class)->except('edit');
 });
 
 
