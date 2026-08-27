@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MinisteriosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'verificaion-estado'])->
     })->name('dashboard');
 
     Route::resource('user', UserController::class)->except('edit');
+     Route::resource('ministerios', MinisteriosController::class);
 });
 
 

@@ -100,8 +100,8 @@
                         Usuarios
                     </a>
 
-                    <a class="nav-link text-dark rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3"
-                        href="#">
+                    <a class="nav-link text-dark rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3  {{ request()->routeIs('admin.ministerios.*') ? 'active' : 'text-dark' }}"
+                        href="{{ route('admin.ministerios.index') }}">
                         <i class="bi bi-diagram-3 fs-6 text-muted"></i> Ministerios
                     </a>
                     <a class="nav-link text-dark rounded-3 small py-2.5 px-3 d-flex align-items-center gap-3"
