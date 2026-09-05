@@ -133,7 +133,7 @@
                                         @foreach ($rols as $rol)
                                             <option value="{{ $rol->id }}"
                                                 {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                                                {{ $rol->rol }}
+                                                {{ $rol->name }}
                                             </option>
                                         @endforeach
                                     </select>

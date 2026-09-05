@@ -1,1 +1,5 @@
-@import './publico/partials/navbar.css';
+
+.link-weblify{
+text-decoration: none;
+color: blueviolet;
+}

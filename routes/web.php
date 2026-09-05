@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.dashboards');
 })->name('welcome');
 
 
@@ -24,17 +24,17 @@ Route::prefix('publico')->name('publico.')->group(function () {
 
 
 
-Route::prefix('admin')->middleware(['auth', 'verified', 'verificaion-estado'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'verified', 'verificacion-estado', "verificacion-rol:Pastor,Admin"])->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        return view('home.dashboards');
     })->name('dashboard');
 
     Route::resource('user', UserController::class)->except('edit');
-     Route::resource('ministerios', MinisteriosController::class);
+    Route::resource('ministerios', MinisteriosController::class)->except('edit');
 });
 
 
-Route::middleware('auth', 'verificaion-estado')->group(function () {
+Route::middleware('auth', 'verificacion-estado')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

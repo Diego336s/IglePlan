@@ -21,9 +21,6 @@ return new class extends Migration
             $table->string('telefono');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('rol_id')
-                ->constrained()
-                ->cascadeOnDelete();
             $table->boolean('estado')->default(true);
             $table->rememberToken();
             $table->timestamps();
@@ -45,14 +42,7 @@ return new class extends Migration
         });
 
 
-        User::create([
-            'name' => 'Diego Andres',
-            'email' => 'sanabriadiego336@gmail.com',
-            'password' => Hash::make('Diego336@'),
-            'last_name' => 'Sanabria Perez',
-            'rol_id' => 3,
-            'telefono' => '3222479758'
-        ]);
+  
     }
 
     /**

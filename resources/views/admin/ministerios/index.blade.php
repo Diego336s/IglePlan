@@ -15,18 +15,17 @@
                     líderes.</p>
             </div>
             <div>
-                <button type="button"
-                    class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2 shadow-sm fs-6"
-                    data-bs-toggle="modal" data-bs-target="#createMinistryModal">
+                <a href="{{ route('admin.ministerios.create') }}"
+                    class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2 shadow-sm fs-6">
                     <i class="bi bi-plus-circle-fill"></i>
                     <span>Nuevo Ministerio</span>
-                </button>
+                </a>
             </div>
         </header>
 
         <!-- KPI SUMMARY CARDS -->
         <section class="row g-3 mb-4">
-            <div class="col-12 col-sm-6 col-xl-3">
+            <div class="col-12 col-sm-6 col-xl-4">
                 <div class="card kpi-card border-0 rounded-xl shadow-sm h-100 p-3">
                     <div class="d-flex align-items-center gap-3">
                         <div
@@ -35,12 +34,12 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Total Ministerios</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">12</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $totalMinisterios }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-xl-3">
+            <div class="col-12 col-sm-6 col-xl-4">
                 <div class="card kpi-card border-0 rounded-xl shadow-sm h-100 p-3">
                     <div class="d-flex align-items-center gap-3">
                         <div
@@ -49,12 +48,12 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Ministerios Activos</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">10</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $ministeriosActivos }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-xl-3">
+            <div class="col-12 col-sm-6 col-xl-4">
                 <div class="card kpi-card border-0 rounded-xl shadow-sm h-100 p-3">
                     <div class="d-flex align-items-center gap-3">
                         <div
@@ -63,12 +62,12 @@
                         </div>
                         <div>
                             <span class="text-slate-500 small fw-medium d-block">Ministerios Inactivos</span>
-                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">10</h2>
+                            <h2 class="h3 fw-bold text-slate-900 mb-0 mt-1">{{ $ministeriosInactivos }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-           
+
         </section>
 
         <!-- SEARCH AND FILTERS TOOLBAR -->
@@ -86,8 +85,8 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <select id="statusFilter" class="form-select text-slate-700 shadow-none">
                         <option value="">Todos los Estados</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3 d-grid">
@@ -99,6 +98,34 @@
                 </div>
             </div>
         </section>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center rounded-3 shadow-sm"
+                role="alert">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                <div>{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        @endif
+        
+        <!-- Feedback Alerts -->
+        <div id="alertContainer" class="mb-4">
+          
+
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                        <strong>Por favor corrige los siguientes errores:</strong>
+                    </div>
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            @endif
+        </div>
 
         <!-- MAIN MINISTRIES TABLE CONTAINER -->
         <section id="tableContainer" class="card border-0 rounded-xl shadow-sm overflow-hidden mb-4">
@@ -108,44 +135,67 @@
                         <tr>
                             <th scope="col" class="ps-4 text-slate-500 fw-semibold text-uppercase extra-small">Ministerio
                             </th>
-                          
+
                             <th scope="col" class="text-slate-500 fw-semibold text-uppercase extra-small">Estado</th>
                             <th scope="col" class="pe-4 text-end text-slate-500 fw-semibold text-uppercase extra-small">
                                 Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="ministriesTableBody">
-                        <tr data-ministry-id="1" data-name="Alabanza y Adoración"  data-status="Activo"
-                            data-description="Coordinación de músicos, directores de alabanza y coro para los servicios generales.">
-                            <td class="ps-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div
-                                        class="ministry-icon-avatar bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-music-note-beamed fs-5"></i>
+                        @forelse ($ministerios as $ministerio)
+                            <tr data-ministry-id="{{ $ministerio->id }}" data-name="{{ $ministerio->ministerio }}"
+                                data-status="{{ $ministerio->estado }}" data-description="{{ $ministerio->descripcion }}">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div
+                                            class="ministry-icon-avatar bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-collection-play-fill"></i>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="fw-semibold text-slate-900 d-block">{{ $ministerio->ministerio }}</span>
+
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span class="fw-semibold text-slate-900 d-block">Alabanza y Adoración</span>
-                                        <span class="text-slate-500 extra-small">Área de Servicios Generales</span>
+                                </td>
+
+                                <td><span
+                                        class="badge {{ $ministerio->estado ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle' }}  px-3 py-2 rounded-pill fw-medium">{{ $ministerio->estado ? 'Activo' : 'Inactivo' }}</span>
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <div class="d-inline-flex gap-1">
+                                        <button type="button" class="btn btn-action-icon btn-view" data-bs-toggle="tooltip"
+                                            data-bs-title="Ver Detalle"><i class="bi bi-eye"></i></button>
+                                        <button type="button" class="btn btn-action-icon btn-edit" data-bs-toggle="tooltip"
+                                            data-bs-title="Editar Ministerio"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-action-icon btn-delete text-danger"
+                                            data-bs-toggle="tooltip" data-bs-title="Eliminar"><i
+                                                class="bi bi-trash"></i></button>
                                     </div>
-                                </div>
-                            </td>
-                         
-                            <td><span
-                                    class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Activo</span>
-                            </td>
-                            <td class="pe-4 text-end">
-                                <div class="d-inline-flex gap-1">
-                                    <button type="button" class="btn btn-action-icon btn-view" data-bs-toggle="tooltip"
-                                        data-bs-title="Ver Detalle"><i class="bi bi-eye"></i></button>
-                                    <button type="button" class="btn btn-action-icon btn-edit" data-bs-toggle="tooltip"
-                                        data-bs-title="Editar Ministerio"><i class="bi bi-pencil"></i></button>
-                                    <button type="button" class="btn btn-action-icon btn-delete text-danger"
-                                        data-bs-toggle="tooltip" data-bs-title="Eliminar"><i
-                                            class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                      
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="card border-0 rounded-xl shadow-sm p-5 text-center ">
+                                        <div class="py-4">
+                                            <div
+                                                class="empty-state-icon bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                                <i class="bi bi-diagram-3 text-slate-400 display-5"></i>
+                                            </div>
+                                            <h3 class="h5 fw-bold text-slate-900 mb-1">No hay ministerios registrados</h3>
+                                            <p class="text-slate-500 small mb-4">Cuando registres nuevos ministerios
+                                                aparecerán aquí.</p>
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @endforelse
+
+
                     </tbody>
                 </table>
             </div>
@@ -190,7 +240,7 @@
                         <p id="viewMinistryDescription" class="text-slate-600 small mb-0"></p>
                     </div>
 
-                    
+
                 </div>
                 <div class="modal-footer border-0 pt-0 justify-content-center">
                     <button type="button" class="btn btn-slate border px-4 rounded-pill small"
@@ -200,7 +250,7 @@
         </div>
     </div>
 
-    <!-- MODAL: CREAR / EDITAR MINISTERIO -->
+    <!-- MODAL:  EDITAR MINISTERIO -->
     <div class="modal fade" id="editMinistryModal" tabindex="-1" aria-labelledby="editMinistryModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -210,28 +260,30 @@
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form id="editMinistryForm">
+                <form method="POST" id="editMinistryForm">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-body p-4 pt-0">
-                        <input type="hidden" id="editMinistryId">
+                      
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="editMinistryName" class="form-label small fw-semibold text-slate-700">Nombre
                                     del Ministerio</label>
-                                <input type="text" class="form-control shadow-none" id="editMinistryName" required>
+                                <input name="ministerio" type="text" class="form-control shadow-none" id="editMinistryName" required>
                             </div>
-                          
+
                             <div class="col-6">
                                 <label for="editMinistryStatus"
                                     class="form-label small fw-semibold text-slate-700">Estado</label>
-                                <select class="form-select shadow-none" id="editMinistryStatus" required>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
+                                <select name='estado' class="form-select shadow-none" id="editMinistryStatus" required>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label for="editMinistryDescription"
                                     class="form-label small fw-semibold text-slate-700">Descripción</label>
-                                <textarea class="form-control shadow-none" id="editMinistryDescription" rows="3"></textarea>
+                                <textarea name='descripcion' class="form-control shadow-none" id="editMinistryDescription" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -258,8 +310,13 @@
                     <p class="text-slate-500 small mb-4">¿Está seguro de eliminar este ministerio?</p>
                     <input type="hidden" id="deleteMinistryId">
                     <div class="d-grid gap-2">
-                        <button type="button" id="btnConfirmDelete" class="btn btn-danger rounded-pill">Eliminar
-                            Ministerio</button>
+                        <form method="POST" id="formEliminar">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"  class="btn btn-danger rounded-pill">Eliminar
+                                Ministerio</button>
+                        </form>
+
                         <button type="button" class="btn btn-light text-slate-600 rounded-pill border"
                             data-bs-dismiss="modal">Cancelar</button>
                     </div>

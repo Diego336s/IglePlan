@@ -8,27 +8,33 @@ use App\Models\rols;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     function index()
     {
-        $users = User::with('rol')->get();
+        $users = User::with('roles')->get();
 
         $totalUsers = User::count();
 
-        $totalAdmin = User::where('rol_id', 3)->count();
-        $totalLideres = User::where('rol_id', 2)->count();
-        $totalPastores = User::where('rol_id', 1)->count();
+        $Admins = Role::findByName('Admin');
+        $totalAdmin = $Admins->users()->count();
 
-        $rols = rols::all();
+        $Lideres = Role::findByName('Lider');
+        $totalLideres = $Lideres->users()->count();
+
+        $Pastores = Role::findByName('Pastor');
+        $totalPastores = $Pastores->users()->count();
+        
+        $rols = Role::all();
 
         return view('admin.users.index', compact('users', 'rols', 'totalUsers', 'totalAdmin', 'totalLideres', 'totalPastores'));
     }
 
     function create()
     {
-        $rols = rols::where('id', '!=', 3)->get();
+        $rols = Role::where('name', '!=', 'Admin')->get();
         $ruta = route('admin.user.store');
         $method = 'POST';
         return view('admin.users.form', compact('rols', 'ruta', 'method'));
@@ -62,6 +68,6 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($user);
         $usuario->delete();
-        return redirect()->route('admin.user.index')->with('success',  'Usuario eliminado correctamente');
+        return redirect()->route('admin.user.index')->with('success',  'Ministerio eliminado correctamente');
     }
 }

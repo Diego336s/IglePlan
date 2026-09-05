@@ -1,14 +1,18 @@
 @extends('layouts.app')
 
 @push('styles')
-    @vite(['resources/css/admin/dashboard.css'])
+    @vite(['resources\css\home\dashboards\dashboard.css'])
 @endpush
 
 @section('contenido')
     <div class="dashboard-minimal-wrapper container container-fluid px-2 px-sm-3 px-md-4 py-2 py-md-3">
 
-       
-
+         @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ session('error') }}
+                    </div>
+                @endif
 
         <!-- Header Breve -->
         <header class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2 mb-3 mb-md-4">
@@ -26,15 +30,7 @@
         <!-- Grid Métricas Totalmente Responsive (12/6/4/3 cols) -->
         <section class="mb-3 mb-md-4">
             <div class="row g-2 g-sm-3">
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <div class="card border-0 bg-white p-3 rounded-4 shadow-sm metric-card">
-                        <span class="text-secondary extra-small text-uppercase fw-semibold">Iglesias</span>
-                        <div class="d-flex align-items-baseline justify-content-between mt-1">
-                            <span class="h3 fw-bold text-dark mb-0">14</span>
-                            <span class="text-success extra-small"><i class="bi bi-arrow-up-short"></i>+2</span>
-                        </div>
-                    </div>
-                </div>
+               
 
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
                     <div class="card border-0 bg-white p-3 rounded-4 shadow-sm metric-card">
@@ -256,5 +252,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/admin/dashboard.js'])
+    @vite(['resources\js\home\dashboards\dashboard.js'])
 @endpush

@@ -26,11 +26,7 @@
 
 <body class="mesh-gradient-bg text-igleico-text font-sans antialiased min-h-screen flex flex-col">
 
-    @if (Auth::check())
-        @include('admin.partials.navbar')
-    @else
-        @include('publico.partials.navbar')
-    @endif
+ @include('partials.navegacion')
 
 
     @yield('contenido')

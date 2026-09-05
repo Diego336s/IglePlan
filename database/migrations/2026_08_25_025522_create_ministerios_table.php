@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ministerios', function (Blueprint $table) {
             $table->id();
             $table->string('ministerio')->unique();
-            $table->boolean('estado');
+            $table->boolean('estado')->default(true);
             $table->string('descripcion');
             $table->timestamps();
         });

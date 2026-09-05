@@ -1,4 +1,4 @@
-    @vite(['resources/css/admin/partials/navbar.css', 'resources/js/admin/partials/navbar.js'])
+    @vite(['resources/css/partials/navbar-admin.css', 'resources/js/partials/navbar-admin.js'])
     <div class="container">
         <!-- Navbar Superior Responsive -->
         <nav class="navbar bg-white border-bottom py-2 shadow-sm rounded-4 mb-3 mb-md-4">

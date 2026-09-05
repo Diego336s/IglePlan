@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tableRows.forEach(row => {
             const name = row.dataset.name.toLowerCase();
-     
+
             const description = row.dataset.description.toLowerCase();
             const status = row.dataset.status;
 
-            const matchesSearch = name.includes(searchTerm)  || description.includes(searchTerm);
+            const matchesSearch = name.includes(searchTerm) || description.includes(searchTerm);
             const matchesStatus = selectedStatus === '' || status === selectedStatus;
 
             if (matchesSearch && matchesStatus) {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // VER DETALLE
         if (btnView) {
             document.getElementById('viewMinistryName').textContent = data.name;
-            
+
             document.getElementById('viewMinistryDescription').textContent = data.description || 'Sin descripción detallada.';
             document.getElementById('viewMinistryStatusBadge').innerHTML = getStatusBadgeHtml(data.status);
 
@@ -85,7 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // EDITAR
         if (btnEdit) {
-            document.getElementById('editMinistryId').value = data.ministryId;
+            let form = document.getElementById('editMinistryForm')
+            form.action = 'ministerios/' + data.ministryId
+            
             document.getElementById('editMinistryName').value = data.name;
             document.getElementById('editMinistryStatus').value = data.status;
             document.getElementById('editMinistryDescription').value = data.description;
@@ -95,30 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ELIMINAR
         if (btnDelete) {
-            document.getElementById('deleteMinistryId').value = data.ministryId;
+            let form = document.getElementById('formEliminar')
+            form.action = 'ministerios/' + data.ministryId
             deleteMinistryModal.show();
         }
     });
 
-    // 5. Submit Form Editar
-    document.getElementById('editMinistryForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        editMinistryModal.hide();
-    });
 
-    // 6. Confirmar Eliminación
-    document.getElementById('btnConfirmDelete').addEventListener('click', () => {
-        const id = document.getElementById('deleteMinistryId').value;
-        const rowToDelete = document.querySelector(`tr[data-ministry-id="${id}"]`);
-        if (rowToDelete) {
-            rowToDelete.remove();
-            filterTable();
-        }
-        deleteMinistryModal.hide();
-    });
+
+   
 
     function getStatusBadgeHtml(status) {
-        if (status === 'Activo') {
+        if (status === '1') {
             return `<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-medium">Activo</span>`;
         }
         return `<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-3 py-2 rounded-pill fw-medium">Inactivo</span>`;

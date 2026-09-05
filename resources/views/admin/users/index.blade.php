@@ -119,7 +119,7 @@
                         <option value="">Todos los Roles</option>
                         @foreach ($rols as $rol)
                             <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                                {{ $rol->rol }}
+                                {{ $rol->name }}
                             </option>
                         @endforeach
                     </select>
@@ -183,7 +183,7 @@
                         @forelse ($users as $user)
                             <tr data-user-id="{{ $user->id }}" data-first-name="{{ $user->name }}"
                                 data-last-name="{{ $user->last_name }}" data-email="{{ $user->email }}"
-                                data-phone="{{ $user->telefono }}" data-role="{{ $user->rol_id }}"
+                                data-phone="{{ $user->telefono }}" data-role="{{  $user->roles->first()?->id }}"
                                 data-status="{{ $user->estado }}" data-reg-date="{{ $user->created_at }}">
                                 <td class="ps-4">
                                     <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563EB&color=fff&bold=true"
@@ -194,7 +194,7 @@
                                 <td class="text-slate-600">{{ $user->email }}</td>
                                 <td class="text-slate-600">{{ $user->telefono }}</td>
                                 <td><span
-                                        class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">{{ $user->rol->rol }}</span>
+                                        class="badge bg-purple-subtle text-purple border border-purple-subtle px-3 py-2 rounded-pill fw-medium">{{ $user->roles->first()?->name  }}</span>
                                 </td>
                                 <td><span
                                         class="badge {{ $user->estado == 1 ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle' }}  px-3 py-2 rounded-pill fw-medium">

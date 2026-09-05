@@ -1,4 +1,4 @@
-
+ @vite(['resources/css/partials/navbar-invitados.css', 'resources/js/partials/navbar-invitados.js'])
 <header class="sticky-top bg-white bg-opacity-75 backdrop-blur border-bottom border-white-20 shadow-sm z-1030">
     <div class="container-fluid max-w-7xl px-3 px-sm-4 h-80px d-flex align-items-center justify-content-between">
 
